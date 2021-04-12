@@ -17,11 +17,13 @@ class OpenWeather
         $this->key = config('services.openweather.key');
     }
 
-    public function getForecastsForCity(string $city_id): Collection
+    public function getForecastsForCity(string $city_id, bool $one_per_day = true): Collection
     {
         $response = Http::get(self::ENDPOINT.$this->key. '&id='.$city_id);
 
-        return collect( json_decode($response->body())->list )->map(fn($data) => $this->forecastFromObject($data));
+        return collect( json_decode($response->body())->list )
+            ->map(fn($data) => $this->forecastFromObject($data))
+            ->when($one_per_day, fn($results) => $this->onePerDay($results));
     }
 
     private function forecastFromObject(object $data): Forecast
@@ -33,5 +35,13 @@ class OpenWeather
             weather: $data->weather[0]->main,
             // @todo add more fields as needed
         );
+    }
+
+    private function onePerDay(Collection $results): Collection
+    {
+        return $results->filter(static function(Forecast $forecast, int $key) use ($results) {
+            return $key === 0 ||
+                ! $forecast->date->isSameDay( $results[--$key]->date );
+        });
     }
 }
