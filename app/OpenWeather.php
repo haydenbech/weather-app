@@ -17,7 +17,7 @@ class OpenWeather
         $this->key = $key;
     }
 
-    public function getForecasts(string $city_id): Collection
+    public function getForecastsForCity(string $city_id): Collection
     {
         $response = Http::get(self::ENDPOINT.$this->key. '&id='.$city_id);
 

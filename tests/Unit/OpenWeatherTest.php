@@ -14,7 +14,7 @@ class OpenWeatherTest extends TestCase
         $openWeather = new OpenWeather(config('services.openweather.key'));
 
         $london = 2643743;
-        $results = $openWeather->getForecasts($london);
+        $results = $openWeather->getForecastsForCity($london);
 
         self::assertTrue($results->isNotEmpty());
         self::assertInstanceOf(Forecast::class, $results->first());
