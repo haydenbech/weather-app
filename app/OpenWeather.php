@@ -12,9 +12,9 @@ class OpenWeather
 
     private string $key;
 
-    public function __construct(string $key)
+    public function __construct()
     {
-        $this->key = $key;
+        $this->key = config('services.openweather.key');
     }
 
     public function getForecastsForCity(string $city_id): Collection
