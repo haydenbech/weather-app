@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Http;
 // @todo add an interface to allow swapping out the API
 class OpenWeather
 {
-    private const ENDPOINT = 'http://api.openweathermap.org/data/2.5/forecast?id=524901&appid=';
+    private const ENDPOINT = 'http://api.openweathermap.org/data/2.5/forecast?appid=';
 
     private string $key;
 
