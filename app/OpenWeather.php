@@ -17,7 +17,7 @@ class OpenWeather
         $this->key = config('services.openweather.key');
     }
 
-    public function getForecastsForCity(string $city_id, bool $one_per_day = true): Collection
+    public function getForecastsForCityId(string $city_id, bool $one_per_day = true): Collection
     {
         $response = Http::get(self::ENDPOINT.$this->key. '&id='.$city_id);
 

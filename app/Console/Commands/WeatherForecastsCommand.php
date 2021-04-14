@@ -50,7 +50,7 @@ class WeatherForecastsCommand extends Command
         foreach($cities as $city){
             $city_forecasts[] = [
                 $city,
-                ...$weather->getForecastsForCity($city)
+                ...$weather->getForecastsForCityId($city)
                     ->take($days_ahead),
             ];
         }

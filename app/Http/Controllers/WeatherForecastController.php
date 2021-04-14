@@ -10,7 +10,7 @@ class WeatherForecastController extends Controller
 {
     public function index(OpenWeather $weather) {
         return view('forecasts.index', [
-            'forecasts' => $weather->getForecastsForCity(7839501),
+            'forecasts' => $weather->getForecastsForCityId(7839501),
         ]);
     }
 }

@@ -9,12 +9,12 @@ use Tests\TestCase;
 class OpenWeatherTest extends TestCase
 {
     /** @test */
-    public function request_returns_forecasts(): void
+    public function city_id_request_returns_forecasts(): void
     {
         $openWeather = new OpenWeather();
 
         $london = 2643743;
-        $results = $openWeather->getForecastsForCity($london);
+        $results = $openWeather->getForecastsForCityId($london);
 
         self::assertTrue($results->isNotEmpty());
         self::assertInstanceOf(Forecast::class, $results->first());
