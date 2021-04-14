@@ -26,6 +26,15 @@ class OpenWeather
             ->when($one_per_day, fn($results) => $this->onePerDay($results));
     }
 
+    public function getForecastsForCityName(string $city_name, bool $one_per_day = true): Collection
+    {
+        $response = Http::get(self::ENDPOINT.$this->key. '&q='.$city_name);
+
+        return collect( json_decode($response->body())->list )
+            ->map(fn($data) => $this->forecastFromObject($data))
+            ->when($one_per_day, fn($results) => $this->onePerDay($results));
+    }
+
     private function forecastFromObject(object $data): Forecast
     {
         return new Forecast(
