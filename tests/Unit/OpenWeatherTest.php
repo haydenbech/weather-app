@@ -33,4 +33,15 @@ class OpenWeatherTest extends TestCase
         self::assertInstanceOf(Forecast::class, $results->first());
         self::assertTrue(today()->isSameDay($results->first()->date));
     }
+
+    /** @test */
+    public function city_list_returns_collection(): void
+    {
+        $openWeather = new OpenWeather();
+
+        $cities = $openWeather->getCities();
+
+        self::assertTrue($cities->isNotEmpty());
+        self::assertInstanceOf(\stdClass::class, $cities->first());
+    }
 }

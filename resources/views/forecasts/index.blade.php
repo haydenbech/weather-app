@@ -23,7 +23,18 @@
 <body class="antialiased">
 <div>
     <h1>Weather</h1>
-    <h2>5-day Forecast</h2>
+    <form>
+        <label for="city">Choose a city</label>
+        <select id="city" name="city">
+            @foreach($cities as $city)
+                <option value="{{ $city->id }}">{{ $city->name }}, {{ $city->country }}</option>
+            @endforeach
+        </select>
+
+        <input value="Go" type="submit">
+    </form>
+    @if( $forecasts->isNotEmpty() )
+    <h2>5-day Forecast for {{ $cities->firstWhere('id', $city_id)->name }}</h2>
     <ul>
         @foreach($forecasts as $forecast)
             <li>
@@ -31,6 +42,7 @@
             </li>
         @endforeach
     </ul>
+    @endif
 </div>
 </body>
 </html>

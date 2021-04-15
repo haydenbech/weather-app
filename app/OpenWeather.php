@@ -1,9 +1,11 @@
 <?php
 namespace App;
 
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 
 // @todo add an interface to allow swapping out the API
 class OpenWeather
@@ -33,6 +35,30 @@ class OpenWeather
         return collect( json_decode($response->body())->list )
             ->map(fn($data) => $this->forecastFromObject($data))
             ->when($one_per_day, fn($results) => $this->onePerDay($results));
+    }
+
+    /**
+     * @todo Create a City class
+     * @todo Move json logic to an adaptor?
+     * @throws FileNotFoundException
+     */
+    public function getCities(): Collection
+    {
+        return collect( json_decode($this->getCityListFile()) );
+    }
+
+    /**
+     * @todo Move to a separate class? (Strategy pattern if necessary?)
+     * @throws FileNotFoundException
+     */
+    private function getCityListFile(): string
+    {
+        $disk = 'local';
+        $filename = 'city.list.json';
+        if (! Storage::disk($disk)->exists($filename)) {
+            throw new FileNotFoundException('City list file not found.', 404);
+        }
+        return Storage::disk($disk)->get($filename);
     }
 
     private function forecastFromObject(object $data): Forecast
