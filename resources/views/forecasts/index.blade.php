@@ -27,7 +27,7 @@
         <label for="city">Choose a city</label>
         <select id="city" name="city">
             @foreach($cities as $city)
-                <option value="{{ $city->id }}">{{ $city->name }}, {{ $city->country }}</option>
+                <option value="{{ $city->id }}" {{ (int) $city_id === $city->id ? 'selected' : '' }}>{{ $city->name }}, {{ $city->country }}</option>
             @endforeach
         </select>
 
