@@ -2,6 +2,7 @@
 namespace App;
 
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Http\Client\HttpClientException;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
@@ -21,7 +22,11 @@ class OpenWeather
 
     public function getForecastsForCityId(string $city_id, bool $one_per_day = true): Collection
     {
-        $response = Http::get(self::ENDPOINT.$this->key. '&id='.$city_id);
+        try {
+            $response = Http::get(self::ENDPOINT.$this->key. '&id='.$city_id);
+        } catch(HttpClientException $e){
+            return collect([]);
+        }
 
         return collect( json_decode($response->body())->list )
             ->map(fn($data) => $this->forecastFromObject($data))

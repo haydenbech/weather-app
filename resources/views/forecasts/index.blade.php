@@ -33,15 +33,19 @@
 
         <input value="Go" type="submit">
     </form>
-    @if( $forecasts->isNotEmpty() )
-    <h2>5-day Forecast for {{ $cities->firstWhere('id', $city_id)->name }}</h2>
-    <ul>
-        @foreach($forecasts as $forecast)
-            <li>
-                {{ $forecast }}
-            </li>
-        @endforeach
-    </ul>
+    @if($city)
+        <h2>5-day Forecast for {{ $cities->firstWhere('id', $city_id)->name }}</h2>
+        @if( $forecasts->isNotEmpty() )
+        <ul>
+            @foreach($forecasts as $forecast)
+                <li>
+                    {{ $forecast }}
+                </li>
+            @endforeach
+        </ul>
+        @else
+            Could not load forecasts for this city.
+        @endif
     @endif
 </div>
 </body>
