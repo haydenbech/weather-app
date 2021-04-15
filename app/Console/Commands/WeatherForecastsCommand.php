@@ -35,7 +35,6 @@ class WeatherForecastsCommand extends Command
     public function handle(OpenWeather $weather)
     {
         // @todo clean up this method
-        // @todo use city names not IDs
         // @todo refactor to allow adding different output formats e.g. CSV
         $days_ahead = 5;
 
